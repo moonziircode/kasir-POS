@@ -61,6 +61,30 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				cash: {
+					DEFAULT: 'hsl(var(--cash))',
+					foreground: 'hsl(var(--cash-foreground))'
+				},
+				transfer: {
+					DEFAULT: 'hsl(var(--transfer))',
+					foreground: 'hsl(var(--transfer-foreground))'
+				},
+				qris: {
+					DEFAULT: 'hsl(var(--qris))',
+					foreground: 'hsl(var(--qris-foreground))'
+				},
+				change: {
+					DEFAULT: 'hsl(var(--change))',
+					foreground: 'hsl(var(--change-foreground))'
+				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))'
 				}
 			},
 			borderRadius: {
