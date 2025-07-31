@@ -59,7 +59,7 @@ export default function POS() {
 
   useEffect(() => {
     filterProducts();
-  }, [products, selectedCategory, searchQuery]);
+  }, [products, searchQuery]);
 
   const fetchProducts = async () => {
     try {
@@ -84,14 +84,11 @@ export default function POS() {
   const filterProducts = () => {
     let filtered = products;
 
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(p => p.category === selectedCategory);
-    }
-
     if (searchQuery) {
       filtered = filtered.filter(p =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.price.toString().includes(searchQuery)
+        p.price.toString().includes(searchQuery) ||
+        p.category.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -151,7 +148,7 @@ export default function POS() {
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
-      <div className="sticky top-0 bg-background border-b z-40 p-4">
+      <div className="sticky top-0 bg-background border-b z-40 p-3">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold">POS Toko Beras</h1>
           <DropdownMenu>
@@ -185,38 +182,24 @@ export default function POS() {
           />
         </div>
 
-        {/* Categories */}
-        <div className="flex space-x-2 overflow-x-auto">
-          {categories.map(category => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedCategory(category.id)}
-              className="whitespace-nowrap"
-            >
-              {category.name}
-            </Button>
-          ))}
-        </div>
       </div>
 
       {/* Content */}
-      <div className="p-4">
-        {selectedCategory === 'all' && !searchQuery ? (
+      <div className="p-3">
+        {!searchQuery ? (
           <div className="text-center py-8 text-muted-foreground">
-            <p>Pilih kategori untuk melihat produk</p>
+            <p>Gunakan pencarian untuk menemukan produk</p>
           </div>
         ) : (
           <>
             {loading ? (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-3">
                 {[...Array(6)].map((_, i) => (
-                  <Skeleton key={i} className="h-32" />
+                  <Skeleton key={i} className="h-20" />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-3">
                 {filteredProducts.map(product => (
                   <ProductCard
                     key={product.id}

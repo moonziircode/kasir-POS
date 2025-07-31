@@ -35,36 +35,41 @@ const getCategoryColor = (category: string) => {
 
 export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
   return (
-    <Card className="h-full">
+    <Card className="border border-border/50 shadow-sm hover:shadow-md transition-all duration-200">
       <CardContent className="p-4">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="font-semibold text-sm line-clamp-2">{product.name}</h3>
+        <div className="flex items-center justify-between gap-3">
+          {/* Product Info */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-semibold text-sm truncate">{product.name}</h3>
+              <Badge variant="outline" className={getCategoryColor(product.category)}>
+                {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+              </Badge>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div className="flex items-baseline gap-1">
+                <span className="text-lg font-bold">
+                  Rp {product.price.toLocaleString('id-ID')}
+                </span>
+                <span className="text-xs text-muted-foreground">/{product.unit}</span>
+              </div>
+              
+              <Badge variant="outline" className={getStockColor(product.stock)}>
+                Stok: {product.stock}
+              </Badge>
+            </div>
+          </div>
+          
+          {/* Add Button */}
           <Button
             size="sm"
             variant="outline"
-            className="ml-2 h-8 w-8 p-0 flex-shrink-0"
+            className="h-10 w-10 p-0 flex-shrink-0 hover:bg-primary hover:text-primary-foreground"
             onClick={() => onAddToCart(product)}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-5 w-5" />
           </Button>
-        </div>
-        
-        <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">
-              Rp {product.price.toLocaleString('id-ID')}
-            </span>
-            <span className="text-xs text-muted-foreground">/{product.unit}</span>
-          </div>
-          
-          <div className="flex justify-between items-center">
-            <Badge variant="outline" className={getCategoryColor(product.category)}>
-              {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
-            </Badge>
-            <Badge variant="outline" className={getStockColor(product.stock)}>
-              {product.stock}
-            </Badge>
-          </div>
         </div>
       </CardContent>
     </Card>
