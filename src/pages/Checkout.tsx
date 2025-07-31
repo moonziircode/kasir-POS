@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CreditCard, Smartphone, Banknote } from 'lucide-react';
+import { ArrowLeft, CreditCard, Smartphone, Banknote, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -29,6 +29,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [cashReceived, setCashReceived] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const totalAmount = cart.reduce((sum, item) => sum + item.quantity * item.price, 0);
   const change = parseFloat(cashReceived || '0') - totalAmount;
@@ -151,14 +152,31 @@ export default function Checkout() {
         {/* Order Summary */}
         <Card>
           <CardHeader>
-            <CardTitle>Ringkasan Pesanan</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle>Ringkasan Pesanan</CardTitle>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowDetails(!showDetails)}
+                className="h-8 w-8 p-0"
+              >
+                <Info className="h-4 w-4" />
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               {cart.map(item => (
-                <div key={item.id} className="flex justify-between text-sm">
-                  <span>{item.name} ({item.quantity} {item.unit})</span>
-                  <span>Rp {(item.quantity * item.price).toLocaleString('id-ID')}</span>
+                <div key={item.id} className="space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span>{item.name} ({item.quantity} {item.unit})</span>
+                    <span>Rp {(item.quantity * item.price).toLocaleString('id-ID')}</span>
+                  </div>
+                  {showDetails && (
+                    <div className="text-xs text-muted-foreground ml-4">
+                      Rp {item.price.toLocaleString('id-ID')}/{item.unit} × {item.quantity}
+                    </div>
+                  )}
                 </div>
               ))}
               <Separator />
@@ -177,32 +195,34 @@ export default function Checkout() {
           </CardHeader>
           <CardContent>
             <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="cash" id="cash" />
-                <Label htmlFor="cash" className="flex items-center space-x-2 cursor-pointer">
-                  <div className="p-2 rounded bg-cash text-cash-foreground">
-                    <Banknote className="h-4 w-4" />
-                  </div>
-                  <span>Tunai</span>
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="transfer" id="transfer" />
-                <Label htmlFor="transfer" className="flex items-center space-x-2 cursor-pointer">
-                  <div className="p-2 rounded bg-transfer text-transfer-foreground">
-                    <CreditCard className="h-4 w-4" />
-                  </div>
-                  <span>Transfer</span>
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="qris" id="qris" />
-                <Label htmlFor="qris" className="flex items-center space-x-2 cursor-pointer">
-                  <div className="p-2 rounded bg-qris text-qris-foreground">
-                    <Smartphone className="h-4 w-4" />
-                  </div>
-                  <span>QRIS</span>
-                </Label>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="flex flex-col items-center space-y-2">
+                  <Label htmlFor="cash" className="flex flex-col items-center space-y-2 cursor-pointer w-full p-3 border rounded-lg hover:bg-muted/50">
+                    <div className="p-2 rounded bg-muted">
+                      <Banknote className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <span className="text-sm">Tunai</span>
+                    <RadioGroupItem value="cash" id="cash" className="mt-1" />
+                  </Label>
+                </div>
+                <div className="flex flex-col items-center space-y-2">
+                  <Label htmlFor="transfer" className="flex flex-col items-center space-y-2 cursor-pointer w-full p-3 border rounded-lg hover:bg-muted/50">
+                    <div className="p-2 rounded bg-muted">
+                      <CreditCard className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <span className="text-sm">Transfer</span>
+                    <RadioGroupItem value="transfer" id="transfer" className="mt-1" />
+                  </Label>
+                </div>
+                <div className="flex flex-col items-center space-y-2">
+                  <Label htmlFor="qris" className="flex flex-col items-center space-y-2 cursor-pointer w-full p-3 border rounded-lg hover:bg-muted/50">
+                    <div className="p-2 rounded bg-muted">
+                      <Smartphone className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <span className="text-sm">QRIS</span>
+                    <RadioGroupItem value="qris" id="qris" className="mt-1" />
+                  </Label>
+                </div>
               </div>
             </RadioGroup>
           </CardContent>
