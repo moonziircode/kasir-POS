@@ -196,30 +196,30 @@ export default function Checkout() {
           <CardContent>
             <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
               <div className="grid grid-cols-3 gap-2">
-                <div className="flex flex-col items-center space-y-2">
-                  <Label htmlFor="cash" className="flex flex-col items-center space-y-2 cursor-pointer w-full p-3 border rounded-lg hover:bg-muted/50">
-                    <div className="p-2 rounded bg-muted">
-                      <Banknote className="h-6 w-6 text-muted-foreground" />
+                <div className="flex flex-col items-center space-y-1">
+                  <Label htmlFor="cash" className="flex flex-col items-center space-y-1 cursor-pointer w-full p-2 border rounded-lg hover:bg-muted/50">
+                    <div className="p-1 rounded bg-muted">
+                      <Banknote className="h-4 w-4 text-muted-foreground" />
                     </div>
-                    <span className="text-sm">Tunai</span>
+                    <span className="text-xs">Tunai</span>
                     <RadioGroupItem value="cash" id="cash" className="mt-1" />
                   </Label>
                 </div>
-                <div className="flex flex-col items-center space-y-2">
-                  <Label htmlFor="transfer" className="flex flex-col items-center space-y-2 cursor-pointer w-full p-3 border rounded-lg hover:bg-muted/50">
-                    <div className="p-2 rounded bg-muted">
-                      <CreditCard className="h-6 w-6 text-muted-foreground" />
+                <div className="flex flex-col items-center space-y-1">
+                  <Label htmlFor="transfer" className="flex flex-col items-center space-y-1 cursor-pointer w-full p-2 border rounded-lg hover:bg-muted/50">
+                    <div className="p-1 rounded bg-muted">
+                      <CreditCard className="h-4 w-4 text-muted-foreground" />
                     </div>
-                    <span className="text-sm">Transfer</span>
+                    <span className="text-xs">Transfer</span>
                     <RadioGroupItem value="transfer" id="transfer" className="mt-1" />
                   </Label>
                 </div>
-                <div className="flex flex-col items-center space-y-2">
-                  <Label htmlFor="qris" className="flex flex-col items-center space-y-2 cursor-pointer w-full p-3 border rounded-lg hover:bg-muted/50">
-                    <div className="p-2 rounded bg-muted">
-                      <Smartphone className="h-6 w-6 text-muted-foreground" />
+                <div className="flex flex-col items-center space-y-1">
+                  <Label htmlFor="qris" className="flex flex-col items-center space-y-1 cursor-pointer w-full p-2 border rounded-lg hover:bg-muted/50">
+                    <div className="p-1 rounded bg-muted">
+                      <Smartphone className="h-4 w-4 text-muted-foreground" />
                     </div>
-                    <span className="text-sm">QRIS</span>
+                    <span className="text-xs">QRIS</span>
                     <RadioGroupItem value="qris" id="qris" className="mt-1" />
                   </Label>
                 </div>
@@ -237,37 +237,51 @@ export default function Checkout() {
             <CardContent className="space-y-4">
               <div>
                 <Label htmlFor="cash-received">Uang Diterima</Label>
-                <Input
-                  id="cash-received"
-                  type="number"
-                  value={cashReceived}
-                  onChange={(e) => setCashReceived(e.target.value)}
-                  placeholder="0"
-                />
+                <div className="relative">
+                  <Input
+                    id="cash-received"
+                    type="number"
+                    value={cashReceived}
+                    onChange={(e) => setCashReceived(e.target.value)}
+                    placeholder="0"
+                    className="pr-8"
+                  />
+                  {cashReceived && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearAmount}
+                      className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6 p-0"
+                    >
+                      ×
+                    </Button>
+                  )}
+                </div>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                <Button variant="outline" size="sm" onClick={() => handleQuickAmount(5000)}>
-                  +5K
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => handleQuickAmount(10000)}>
-                  +10K
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => handleQuickAmount(20000)}>
-                  +20K
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => handleQuickAmount(50000)}>
-                  +50K
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => handleQuickAmount(100000)}>
-                  +100K
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleExactAmount}>
-                  Pas
-                </Button>
-                <Button variant="outline" size="sm" onClick={clearAmount}>
-                  Clear
-                </Button>
+              <div className="space-y-2">
+                <div className="grid grid-cols-3 gap-2">
+                  <Button variant="outline" size="sm" onClick={() => handleQuickAmount(5000)}>
+                    +5K
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => handleQuickAmount(10000)}>
+                    +10K
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => handleQuickAmount(20000)}>
+                    +20K
+                  </Button>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <Button variant="outline" size="sm" onClick={() => handleQuickAmount(50000)}>
+                    +50K
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => handleQuickAmount(100000)}>
+                    +100K
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleExactAmount}>
+                    Pas
+                  </Button>
+                </div>
               </div>
 
               {cashReceived && (

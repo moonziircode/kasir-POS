@@ -17,18 +17,11 @@ interface ProductCardProps {
 }
 
 const getStockColor = (stock: number) => {
-  if (stock > 20) return 'bg-success text-success-foreground';
-  if (stock >= 10) return 'bg-warning text-warning-foreground';
-  return 'bg-change text-change-foreground';
+  return 'bg-muted text-muted-foreground';
 };
 
 const getCategoryColor = (category: string) => {
-  switch (category) {
-    case 'literan': return 'bg-transfer text-transfer-foreground';
-    case 'kiloan': return 'bg-success text-success-foreground';
-    case 'karungan': return 'bg-qris text-qris-foreground';
-    default: return 'bg-muted text-muted-foreground';
-  }
+  return 'bg-muted text-muted-foreground';
 };
 
 export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
